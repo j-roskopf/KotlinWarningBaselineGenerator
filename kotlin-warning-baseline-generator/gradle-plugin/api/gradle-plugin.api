@@ -1,0 +1,33 @@
+public final class com/joetr/kotlin/warning/baseline/generator/ConfigureKotlinWarningBaselineKt$inlined$sam$i$org_gradle_api_Action$0 : org/gradle/api/Action {
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public final synthetic fun execute (Ljava/lang/Object;)V
+}
+
+public final class com/joetr/kotlin/warning/baseline/generator/KotlinCompileTask : java/lang/Enum {
+	public static final field MAIN Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
+	public static final field UNIT_TEST Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
+	public static fun valueOf (Ljava/lang/String;)Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
+	public static fun values ()[Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
+}
+
+public abstract interface class com/joetr/kotlin/warning/baseline/generator/KotlinWarningBaselineExtension {
+	public static final field Companion Lcom/joetr/kotlin/warning/baseline/generator/KotlinWarningBaselineExtension$Companion;
+	public abstract fun getKotlinCompileTasksToConfigure ()Lorg/gradle/api/provider/ListProperty;
+}
+
+public final class com/joetr/kotlin/warning/baseline/generator/KotlinWarningBaselineExtension$Companion {
+	public final fun create (Lorg/gradle/api/Project;)Lcom/joetr/kotlin/warning/baseline/generator/KotlinWarningBaselineExtension;
+	public final fun get (Lorg/gradle/api/Project;)Lcom/joetr/kotlin/warning/baseline/generator/KotlinWarningBaselineExtension;
+}
+
+public final class com/joetr/kotlin/warning/baseline/generator/KotlinWarningBaselineGeneratorPlugin : org/gradle/api/Plugin {
+	public fun <init> (Lorg/gradle/build/event/BuildEventsListenerRegistry;)V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class com/joetr/kotlin/warning/baseline/generator/KotlinWarningBaselineGeneratorService : org/gradle/api/services/BuildService, org/gradle/tooling/events/OperationCompletionListener {
+	public fun <init> ()V
+	public fun onFinish (Lorg/gradle/tooling/events/FinishEvent;)V
+}
+
