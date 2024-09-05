@@ -56,8 +56,11 @@ internal class WarningFileCollector {
                 val log = progressEvent.details
                 if (log is LogEventBuildOperationProgressDetails) {
                     if (log.level.name == LogLevel.WARN.name) {
+                        println("joerDebug - detected warn log $log")
+
                         if (log.message.contains("w:") && log.message.contains(".kt")) {
                             if (log.message.contains("/$projectName/")) {
+                                println("joerDebug - adding log to $projectName")
                                 kotlinWarningsMap[projectName] =
                                     kotlinWarningsMap.getOrDefault(projectName, emptySet()) + setOf(log.message)
                             }
