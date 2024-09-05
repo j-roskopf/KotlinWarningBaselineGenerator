@@ -51,7 +51,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: reports
+          name: build
           path: |
-            **/build/reports/
-            **/build/test-results/
+            **/build/
