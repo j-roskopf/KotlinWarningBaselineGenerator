@@ -62,10 +62,8 @@ internal abstract class CheckKotlinWarningBaselineTask : DefaultTask() {
     fun check() {
         val warningFile = File(warningFilePath.get())
         val warningSet = if (warningFile.exists()) {
-            println("Warning file exists - ${warningFile.absolutePath}")
             warningFile.readWarningLines().toSet()
         } else {
-            println("Warning file does NOT exists")
             emptySet()
         }
 
@@ -78,9 +76,6 @@ internal abstract class CheckKotlinWarningBaselineTask : DefaultTask() {
             }
 
         val diff = warningSet - baselineSet
-
-        println("Warning set - $warningSet")
-        println("Baseline set - $baselineSet")
 
         if (diff.isNotEmpty()) {
             val text =

@@ -68,17 +68,11 @@ public abstract class KotlinWarningBaselineGeneratorService :
                         tasksCompleted[projectName] = current + 1
                     }
 
-                    println("joerDebug status is complete for $eventSplit")
-                    println("joerDebug tasks to complete for $projectName are ${tasksToComplete[projectName]}")
-                    println("joerDebug tasks completed for $projectName are ${tasksCompleted[projectName]}")
-
                     if (tasksToComplete[projectName]?.size == tasksCompleted[projectName]) {
                         val content =
                             warningFileCollectors[projectName]?.kotlinWarningsMap?.get(
                                 projectName,
                             ) ?: emptySet()
-
-                        println("joerDebug - completed all tasks and content = $content")
 
                         if (content.isNotEmpty()) {
                             val warningFileCollector = warningFileCollectors[projectName]
@@ -90,16 +84,11 @@ public abstract class KotlinWarningBaselineGeneratorService :
                                 null
                             }
 
-                            println("joerDebug - file to write to $filePathToWriteTo")
-
                             if (warningFileCollector != null && filePathToWriteTo != null) {
-                                println("joerDebug - WRITING TO FILE")
                                 warningFileCollector.writeWarningsToFile(
                                     content,
                                     File(filePathToWriteTo),
                                 )
-                            } else {
-                                println("joerDebug - not writing to file, why")
                             }
                         }
 
@@ -117,8 +106,6 @@ public abstract class KotlinWarningBaselineGeneratorService :
     }
 
     override fun close() {
-        println("joerDebug - executing CLOSE ${managers.keys} and ${listeners.keys}")
-
         managers.forEach {
             val listener = listeners[it.key]
             if (listener != null) {

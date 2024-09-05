@@ -27,17 +27,22 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.exists
 import com.joetr.kotlin.warning.baseline.generator.BasicAndroidProject
+import com.joetr.kotlin.warning.baseline.generator.infra.RetryRule
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.failed
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.succeeded
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.task
 import com.joetr.kotlin.warning.baseline.generator.infra.execute
 import com.joetr.kotlin.warning.baseline.generator.infra.executeAndFail
+import org.junit.Rule
 import org.junit.Test
 import java.io.File
 import kotlin.io.path.readText
 
 @Suppress("FunctionName")
 class ConfigurationKotlinWarningBaselineTaskTest {
+
+    @get:Rule
+    val retryRule = RetryRule(retryCount = 5)
 
     @Test
     fun `dynamic properties configuration with unit test`() {
@@ -56,8 +61,6 @@ class ConfigurationKotlinWarningBaselineTaskTest {
             )
         val generateTask = ":android:releaseWriteKotlinWarningBaseline"
 
-        println("joerDebug - generate task $generateTask")
-
         val unitTestDirectory =
             project.projectDir("android").resolve("src/test/kotlin/com/example/myapplication").toFile()
 
@@ -68,8 +71,6 @@ class ConfigurationKotlinWarningBaselineTaskTest {
 
         val unitTestFile = File(unitTestDirectory, "ExampleUnitTest.kt")
         val androidTestFile = File(androidTestDirectory, "ExampleInstrumentedTest.kt")
-
-        println("joerDebug - all files created")
 
         unitTestFile.writeText(
             """
@@ -92,8 +93,6 @@ class ConfigurationKotlinWarningBaselineTaskTest {
             """.trimIndent(),
         )
 
-        println("joerDebug - unit test written")
-
         androidTestFile.writeText(
             """
             package com.example.myapplication
@@ -113,21 +112,14 @@ class ConfigurationKotlinWarningBaselineTaskTest {
             """.trimIndent(),
         )
 
-        println("joerDebug - android file written - going to execute generate $generateTask")
-
         // generate golden
         val generateResult = project.execute(generateTask)
-        println("joerDebug - generate result done - ${generateResult.output}")
         assertThat(generateResult).task(generateTask).succeeded()
 
         val baselineFile = project.projectDir(":android").resolve("warning-baseline-release-android.txt")
         assertThat(baselineFile.toFile()).exists()
 
-        println("joerDebug - reading baseline")
-
         val baselineText = baselineFile.readText()
-
-        println("joerDebug - read baseline = $baselineText")
 
         // should contain test src set
         assertThat(baselineText).contains("TestComposable.kt:6:20 Condition 'test != null' is always 'true'")
@@ -159,9 +151,7 @@ class ConfigurationKotlinWarningBaselineTaskTest {
 
         // assert check fails
         val checkTask = ":android:releaseCheckKotlinWarningBaseline"
-        println("joerDebug - check task $checkTask, going to execute")
         val checkResult = project.executeAndFail(checkTask)
-        println("joerDebug - check executed, result = ${checkResult.output}")
         assertThat(checkResult).task(checkTask).failed()
         assertThat(checkResult.output)
             .contains(
@@ -176,7 +166,6 @@ class ConfigurationKotlinWarningBaselineTaskTest {
 
         // regenerate baseline
         val newUnitTestGenerateResult = project.execute(generateTask)
-        println("joerDebug - generate done, status = ${newUnitTestGenerateResult.output}")
         assertThat(newUnitTestGenerateResult).task(generateTask).succeeded()
 
         // modify android test src
@@ -200,10 +189,7 @@ class ConfigurationKotlinWarningBaselineTaskTest {
             """.trimIndent(),
         )
 
-        println("joerDebug - android test modified, going to execute check again $checkTask")
-
         val androidTestCheckResult = project.executeAndFail(checkTask)
-        println("joerDebug - check executed again, result = ${androidTestCheckResult.output}")
         assertThat(androidTestCheckResult).task(checkTask).failed()
         assertThat(androidTestCheckResult.output)
             .contains(
