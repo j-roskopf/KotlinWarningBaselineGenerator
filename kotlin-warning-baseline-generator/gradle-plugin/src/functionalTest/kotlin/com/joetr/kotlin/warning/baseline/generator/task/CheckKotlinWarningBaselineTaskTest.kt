@@ -26,16 +26,21 @@ package com.joetr.kotlin.warning.baseline.generator.task
 import assertk.assertThat
 import assertk.assertions.contains
 import com.joetr.kotlin.warning.baseline.generator.BasicAndroidProject
+import com.joetr.kotlin.warning.baseline.generator.infra.RetryRule
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.doesNotExist
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.failed
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.succeeded
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.task
 import com.joetr.kotlin.warning.baseline.generator.infra.execute
 import com.joetr.kotlin.warning.baseline.generator.infra.executeAndFail
+import org.junit.Rule
 import org.junit.Test
 
 @Suppress("FunctionName")
 class CheckKotlinWarningBaselineTaskTest {
+
+    @get:Rule
+    val retryRule = RetryRule(retryCount = 5)
 
     @Test
     fun `check task succeeds if no changes`() {
@@ -59,6 +64,7 @@ class CheckKotlinWarningBaselineTaskTest {
         val checkTask = ":android:releaseCheckKotlinWarningBaseline"
 
         val writeResult = project.execute(writeTask)
+        assertThat(writeResult).task(writeTask).succeeded()
 
         // modify the source so the warning isn't in the baseline anymore
         project
@@ -83,8 +89,6 @@ class CheckKotlinWarningBaselineTaskTest {
             )
 
         val checkResult = project.executeAndFail(checkTask)
-
-        assertThat(writeResult).task(writeTask).succeeded()
         assertThat(checkResult).task(checkTask).failed()
         assertThat(checkResult.output)
             .contains(

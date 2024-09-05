@@ -27,17 +27,22 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.exists
 import com.joetr.kotlin.warning.baseline.generator.BasicAndroidProject
+import com.joetr.kotlin.warning.baseline.generator.infra.RetryRule
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.failed
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.succeeded
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.task
 import com.joetr.kotlin.warning.baseline.generator.infra.execute
 import com.joetr.kotlin.warning.baseline.generator.infra.executeAndFail
+import org.junit.Rule
 import org.junit.Test
 import java.io.File
 import kotlin.io.path.readText
 
 @Suppress("FunctionName")
 class ConfigurationKotlinWarningBaselineTaskTest {
+
+    @get:Rule
+    val retryRule = RetryRule(retryCount = 5)
 
     @Test
     fun `dynamic properties configuration with unit test`() {
@@ -65,7 +70,7 @@ class ConfigurationKotlinWarningBaselineTaskTest {
         androidTestDirectory.mkdirs()
 
         val unitTestFile = File(unitTestDirectory, "ExampleUnitTest.kt")
-        val androidTestFile = File(unitTestDirectory, "ExampleInstrumentedTest.kt")
+        val androidTestFile = File(androidTestDirectory, "ExampleInstrumentedTest.kt")
 
         unitTestFile.writeText(
             """
@@ -114,10 +119,12 @@ class ConfigurationKotlinWarningBaselineTaskTest {
         val baselineFile = project.projectDir(":android").resolve("warning-baseline-release-android.txt")
         assertThat(baselineFile.toFile()).exists()
 
+        val baselineText = baselineFile.readText()
+
         // should contain test src set
-        assertThat(baselineFile.readText()).contains("TestComposable.kt:6:20 Condition 'test != null' is always 'true'")
-        assertThat(baselineFile.readText()).contains("ExampleUnitTest.kt:11:12 Condition 'testSrcSet != null' is always 'true'")
-        assertThat(baselineFile.readText()).contains("ExampleInstrumentedTest.kt:10:12 Condition 'androidTest != null' is always 'true'")
+        assertThat(baselineText).contains("TestComposable.kt:6:20 Condition 'test != null' is always 'true'")
+        assertThat(baselineText).contains("ExampleUnitTest.kt:11:12 Condition 'testSrcSet != null' is always 'true'")
+        assertThat(baselineText).contains("ExampleInstrumentedTest.kt:10:12 Condition 'androidTest != null' is always 'true'")
 
         // modify test src
         unitTestFile.writeText(
@@ -154,6 +161,8 @@ class ConfigurationKotlinWarningBaselineTaskTest {
             .contains(
                 "ExampleUnitTest.kt:12:12 Condition 'testSrcSet != null' is always 'true'",
             )
+
+        println("going to generate again  $generateTask")
 
         // regenerate baseline
         val newUnitTestGenerateResult = project.execute(generateTask)

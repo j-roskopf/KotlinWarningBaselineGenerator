@@ -95,12 +95,12 @@ Can export for CI via `gpg --armor --export-secret-keys <keyID>`
   * `gpg --full-generate-key` 
 * List keys and grab newly generated key (40 digits)
   * `gpg --list-keys`
-* `gpg --export-secret-keys THE_KEY_THAT_YOU_JUST_GENERATED > composeguard.gpg`
+* `gpg --export-secret-keys THE_KEY_THAT_YOU_JUST_GENERATED > kotlinwarningbaselinegenerator.gpg`
 * Modify your gradle home `gradle.properties` with the following:
 ```
 signing.keyId=LAST_8_DIGITS_OF_KEY
 signing.password=PASSWORD_USED_TO_GENERATE_KEY
-signing.secretKeyRingFile=/Users/YOURUSERNAME/.gnupg/composeguard.gpg (or wherever you stored the keyring you generated earlier)
+signing.secretKeyRingFile=/Users/YOURUSERNAME/.gnupg/kotlinwarningbaselinegenerator.gpg (or wherever you stored the keyring you generated earlier)
 ```
 
 ## Prior Art

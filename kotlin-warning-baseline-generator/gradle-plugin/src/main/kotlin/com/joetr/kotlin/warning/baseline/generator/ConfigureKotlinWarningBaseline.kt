@@ -442,8 +442,8 @@ private fun Project.configureTasks(
         buildOperationExecutor.addListener(warningFileCollector.buildOperationListener)
     }
 
-    val isWriteTask = gradle.startParameter.taskNames.any { it.contains(WRITE_TASK_NAME) }
-    val isCheckTask = gradle.startParameter.taskNames.any { it.contains(CHECK_TASK_NAME) }
+    val isWriteTask = kotlinWarningBaselineGeneratorService.get().isWriteTask
+    val isCheckTask = kotlinWarningBaselineGeneratorService.get().isCheckTask
 
     if (isWriteTask) {
         warningFileCollector.fileToWriteTo = baselineFile
@@ -537,6 +537,7 @@ private fun Project.configureKotlinCompile(compileTaskDependsOn: Set<String>) {
                         gradle.startParameter.taskNames.any { it.contains(WRITE_TASK_NAME) }
                     val isCheckTask =
                         gradle.startParameter.taskNames.any { it.contains(CHECK_TASK_NAME) }
+
                     // only remove once they've all been completed
                     if ((isWriteTask || isCheckTask) && compileTaskDependsOn.contains(t.name)) {
                         // since we always need the kotlin compile task to fully run, so we get the full output,
