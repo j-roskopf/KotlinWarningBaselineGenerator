@@ -45,7 +45,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew build --stacktrace
+        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.CheckKotlinWarningBaselineTaskTest"
 
       - name: Store reports
         if: failure()
