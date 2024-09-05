@@ -114,10 +114,12 @@ class ConfigurationKotlinWarningBaselineTaskTest {
         val baselineFile = project.projectDir(":android").resolve("warning-baseline-release-android.txt")
         assertThat(baselineFile.toFile()).exists()
 
+        val baselineText = baselineFile.readText()
+
         // should contain test src set
-        assertThat(baselineFile.readText()).contains("TestComposable.kt:6:20 Condition 'test != null' is always 'true'")
-        assertThat(baselineFile.readText()).contains("ExampleUnitTest.kt:11:12 Condition 'testSrcSet != null' is always 'true'")
-        assertThat(baselineFile.readText()).contains("ExampleInstrumentedTest.kt:10:12 Condition 'androidTest != null' is always 'true'")
+        assertThat(baselineText).contains("TestComposable.kt:6:20 Condition 'test != null' is always 'true'")
+        assertThat(baselineText).contains("ExampleUnitTest.kt:11:12 Condition 'testSrcSet != null' is always 'true'")
+        assertThat(baselineText).contains("ExampleInstrumentedTest.kt:10:12 Condition 'androidTest != null' is always 'true'")
 
         // modify test src
         unitTestFile.writeText(
