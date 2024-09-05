@@ -59,6 +59,7 @@ class CheckKotlinWarningBaselineTaskTest {
         val checkTask = ":android:releaseCheckKotlinWarningBaseline"
 
         val writeResult = project.execute(writeTask)
+        assertThat(writeResult).task(writeTask).succeeded()
 
         // modify the source so the warning isn't in the baseline anymore
         project
@@ -83,8 +84,6 @@ class CheckKotlinWarningBaselineTaskTest {
             )
 
         val checkResult = project.executeAndFail(checkTask)
-
-        assertThat(writeResult).task(writeTask).succeeded()
         assertThat(checkResult).task(checkTask).failed()
         assertThat(checkResult.output)
             .contains(

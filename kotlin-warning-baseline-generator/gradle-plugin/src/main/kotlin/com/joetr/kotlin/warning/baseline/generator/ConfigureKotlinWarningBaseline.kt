@@ -297,6 +297,11 @@ private fun Project.setupDataForAndroidTarget(
     kotlinWarningBaselineGeneratorService.get().isCheckTask =
         gradle.startParameter.taskNames.any { it.contains(CHECK_TASK_NAME) }
 
+    println("joerDebug CONFIGURING ANDROID TARGET")
+    println("joerDebug Start params ${gradle.startParameter.taskNames}")
+    println("joerDebug isCheck = ${gradle.startParameter.taskNames.any { it.contains(CHECK_TASK_NAME) }}")
+    println("joerDebug isWrite = ${gradle.startParameter.taskNames.any { it.contains(WRITE_TASK_NAME) }}")
+
     addCompileTaskToService(
         compileTaskDependsOn = compileTaskDependsOn,
         service = kotlinWarningBaselineGeneratorService.get(),
@@ -357,6 +362,11 @@ private fun Project.setupDataForMultiplatformTarget(
         gradle.startParameter.taskNames.any { it.contains(WRITE_TASK_NAME) }
     kotlinWarningBaselineGeneratorService.get().isCheckTask =
         gradle.startParameter.taskNames.any { it.contains(CHECK_TASK_NAME) }
+
+    println("joerDebug SETTING WRITE / CHECK TASK")
+    println("joerDebug Start params ${gradle.startParameter.taskNames}")
+    println("joerDebug isCheck = ${kotlinWarningBaselineGeneratorService.get().isCheckTask}")
+    println("joerDebug isWrite = ${kotlinWarningBaselineGeneratorService.get().isWriteTask}")
 
     configureTasks(
         variant = variant,
@@ -442,8 +452,13 @@ private fun Project.configureTasks(
         buildOperationExecutor.addListener(warningFileCollector.buildOperationListener)
     }
 
-    val isWriteTask = gradle.startParameter.taskNames.any { it.contains(WRITE_TASK_NAME) }
-    val isCheckTask = gradle.startParameter.taskNames.any { it.contains(CHECK_TASK_NAME) }
+    val isWriteTask = kotlinWarningBaselineGeneratorService.get().isWriteTask
+    val isCheckTask = kotlinWarningBaselineGeneratorService.get().isCheckTask
+
+    println("joerDebug CONFIGURING TASKS")
+    println("joerDebug Start params ${gradle.startParameter.taskNames}")
+    println("joerDebug isCheck = ${kotlinWarningBaselineGeneratorService.get().isCheckTask}")
+    println("joerDebug isWrite = ${kotlinWarningBaselineGeneratorService.get().isWriteTask}")
 
     if (isWriteTask) {
         warningFileCollector.fileToWriteTo = baselineFile
@@ -537,6 +552,12 @@ private fun Project.configureKotlinCompile(compileTaskDependsOn: Set<String>) {
                         gradle.startParameter.taskNames.any { it.contains(WRITE_TASK_NAME) }
                     val isCheckTask =
                         gradle.startParameter.taskNames.any { it.contains(CHECK_TASK_NAME) }
+
+                    println("joerDebug CONFIGURING KOTLIN TASK TASKS")
+                    println("joerDebug Start params ${gradle.startParameter.taskNames}")
+                    println("joerDebug isCheck = ${gradle.startParameter.taskNames.any { it.contains(CHECK_TASK_NAME) }}")
+                    println("joerDebug isWrite = ${gradle.startParameter.taskNames.any { it.contains(WRITE_TASK_NAME) }}")
+
                     // only remove once they've all been completed
                     if ((isWriteTask || isCheckTask) && compileTaskDependsOn.contains(t.name)) {
                         // since we always need the kotlin compile task to fully run, so we get the full output,
