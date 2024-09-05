@@ -65,7 +65,7 @@ class ConfigurationKotlinWarningBaselineTaskTest {
         androidTestDirectory.mkdirs()
 
         val unitTestFile = File(unitTestDirectory, "ExampleUnitTest.kt")
-        val androidTestFile = File(unitTestDirectory, "ExampleInstrumentedTest.kt")
+        val androidTestFile = File(androidTestDirectory, "ExampleInstrumentedTest.kt")
 
         unitTestFile.writeText(
             """
