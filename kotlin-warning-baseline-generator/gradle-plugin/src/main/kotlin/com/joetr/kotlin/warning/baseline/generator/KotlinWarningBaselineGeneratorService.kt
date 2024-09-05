@@ -78,7 +78,7 @@ public abstract class KotlinWarningBaselineGeneratorService :
                                 projectName,
                             ) ?: emptySet()
 
-                        println("joerDebug - completed all tasks")
+                        println("joerDebug - completed all tasks and content = $content")
 
                         if (content.isNotEmpty()) {
                             val warningFileCollector = warningFileCollectors[projectName]
@@ -90,11 +90,16 @@ public abstract class KotlinWarningBaselineGeneratorService :
                                 null
                             }
 
+                            println("joerDebug - file to write to $filePathToWriteTo")
+
                             if (warningFileCollector != null && filePathToWriteTo != null) {
+                                println("joerDebug - WRITING TO FILE")
                                 warningFileCollector.writeWarningsToFile(
                                     content,
                                     File(filePathToWriteTo),
                                 )
+                            } else {
+                                println("joerDebug - not writing to file, why")
                             }
                         }
 
