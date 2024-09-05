@@ -46,6 +46,7 @@ android {
         jvmToolchain(17)
     }
 }
+
 dependencies {
     testImplementation("org.testng:testng:6.9.6")
     androidTestImplementation("org.testng:testng:6.9.6")

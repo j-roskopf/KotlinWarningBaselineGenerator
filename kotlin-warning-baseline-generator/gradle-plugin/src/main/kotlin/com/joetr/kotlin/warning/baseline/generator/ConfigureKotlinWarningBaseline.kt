@@ -304,8 +304,6 @@ private fun Project.setupDataForAndroidTarget(
         skipValidation = false,
     )
 
-    println("joerDebug configuring android $compileTaskDependsOn and what got added ${kotlinWarningBaselineGeneratorService.get().tasksToComplete}")
-
     configureTasks(
         variant = variant,
         target = "android",
@@ -348,8 +346,6 @@ private fun Project.setupDataForMultiplatformTarget(
         } else {
             addTaskToService(compileTaskDependsOn, kotlinWarningBaselineGeneratorService.get())
         }
-
-        println("joerDebug configuring android $compileTaskDependsOn and what got added ${kotlinWarningBaselineGeneratorService.get().tasksToComplete}")
 
         kotlinWarningBaselineGeneratorService.get().warningFilePaths[project.name] =
             warningFile.absolutePath

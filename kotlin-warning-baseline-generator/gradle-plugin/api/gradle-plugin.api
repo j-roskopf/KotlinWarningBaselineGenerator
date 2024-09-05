@@ -4,7 +4,6 @@ public final class com/joetr/kotlin/warning/baseline/generator/ConfigureKotlinWa
 }
 
 public final class com/joetr/kotlin/warning/baseline/generator/KotlinCompileTask : java/lang/Enum {
-	public static final field ANDROID_TEST Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
 	public static final field MAIN Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
 	public static final field UNIT_TEST Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
 	public static fun valueOf (Ljava/lang/String;)Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
@@ -27,9 +26,6 @@ public final class com/joetr/kotlin/warning/baseline/generator/KotlinWarningBase
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public abstract class com/joetr/kotlin/warning/baseline/generator/KotlinWarningBaselineGeneratorService : java/lang/AutoCloseable, org/gradle/api/services/BuildService, org/gradle/tooling/events/OperationCompletionListener {
-	public fun <init> ()V
-	public fun close ()V
 	public fun onFinish (Lorg/gradle/tooling/events/FinishEvent;)V
 }
 

@@ -4,3 +4,4 @@
 w: file:///Users/joeroskopf/Code/KotlinWarningBaselineGeneratorGithub/KotlinWarningBaselineGenerator/sandbox-android-app/app/src/main/java/com/example/myapplication/MainActivity.kt:25:12 Condition is always 'true'.
 w: file:///Users/joeroskopf/Code/KotlinWarningBaselineGeneratorGithub/KotlinWarningBaselineGenerator/sandbox-android-app/app/src/test/java/com/example/myapplication/ExampleUnitTest.kt:16:12 Condition is always 'true'.
 w: file:///Users/joeroskopf/Code/KotlinWarningBaselineGeneratorGithub/KotlinWarningBaselineGenerator/sandbox-android-app/app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.kt:27:12 Condition is always 'true'.
+

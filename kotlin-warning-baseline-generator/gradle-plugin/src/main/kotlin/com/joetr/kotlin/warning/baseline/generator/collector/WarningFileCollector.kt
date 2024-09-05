@@ -53,7 +53,6 @@ internal class WarningFileCollector {
                 operationIdentifier: OperationIdentifier,
                 progressEvent: OperationProgressEvent,
             ) {
-                progressEvent.details
                 val log = progressEvent.details
                 if (log is LogEventBuildOperationProgressDetails) {
                     if (log.level.name == LogLevel.WARN.name) {
