@@ -45,7 +45,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew clean build --stacktrace
+        run: ./gradlew build --stacktrace
 
       - name: Store reports
         if: failure()
@@ -53,5 +53,4 @@ jobs:
         with:
           name: reports
           path: |
-            **/build/reports/
-            **/build/test-results/
+            **/build/
