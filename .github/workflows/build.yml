@@ -46,7 +46,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.CheckKotlinWarningBaselineTaskTest"
+        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.CheckKotlinWarningBaselineTaskTest" --rerun-tasks
 
       - name: 🏗 Build with Gradle 2 🛠️
         working-directory: ./kotlin-warning-baseline-generator
@@ -56,7 +56,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.WriteKotlinWarningBaselineTaskTest"
+        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.WriteKotlinWarningBaselineTaskTest" --rerun-tasks
 
       - name: 🏗 Build with Gradle 3 🛠️
         working-directory: ./kotlin-warning-baseline-generator
@@ -66,7 +66,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.MultiplatformKotlinWarningBaselineTaskTest"
+        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.MultiplatformKotlinWarningBaselineTaskTest" --rerun-tasks
 
       - name: 🏗 Build with Gradle 4 🛠️
         working-directory: ./kotlin-warning-baseline-generator
@@ -76,7 +76,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.RemoveKotlinWarningBaselineTaskTest"
+        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.RemoveKotlinWarningBaselineTaskTest" --rerun-tasks
 
       - name: 🏗 Build with Gradle 5 🛠️
         working-directory: ./kotlin-warning-baseline-generator
@@ -86,7 +86,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.ConfigurationKotlinWarningBaselineTaskTest"
+        run: ./gradlew :gradle-plugin:functionalTest --tests "com.joetr.kotlin.warning.baseline.generator.task.ConfigurationKotlinWarningBaselineTaskTest" --rerun-tasks
 
       - name: Store reports
         if: failure()
