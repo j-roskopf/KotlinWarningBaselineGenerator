@@ -40,7 +40,6 @@ class CheckKotlinWarningBaselineTaskTest {
     fun `check task fails if new warning is added`() {
         val project = BasicAndroidProject.getComposeProject()
 
-
         val writeTask = ":android:releaseWriteKotlinWarningBaseline"
         val checkTask = ":android:releaseCheckKotlinWarningBaseline"
 

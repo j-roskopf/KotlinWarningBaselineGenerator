@@ -94,7 +94,6 @@ class ConfigurationKotlinWarningBaselineTaskTest {
 
         println("joerDebug - unit test written")
 
-
         androidTestFile.writeText(
             """
             package com.example.myapplication
@@ -129,7 +128,6 @@ class ConfigurationKotlinWarningBaselineTaskTest {
         val baselineText = baselineFile.readText()
 
         println("joerDebug - read baseline = $baselineText")
-
 
         // should contain test src set
         assertThat(baselineText).contains("TestComposable.kt:6:20 Condition 'test != null' is always 'true'")
