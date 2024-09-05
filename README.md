@@ -88,7 +88,7 @@ WIP
 
 This is required to test.
 
-Can export for CI via `gpg --armor --export-secret-keys <keyID>`
+In memory GPG key - https://vanniktech.github.io/gradle-maven-publish-plugin/central/#in-memory-gpg-key
 
 * Install gnupg - https://formulae.brew.sh/formula/gnupg
 * Generate a key - https://central.sonatype.org/publish/requirements/gpg/#generating-a-key-pair
