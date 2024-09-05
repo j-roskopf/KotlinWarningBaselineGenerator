@@ -16,6 +16,10 @@ jobs:
     timeout-minutes: 60
 
     steps:
+      - uses: actions/checkout@v2
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
+
       - uses: actions/checkout@v1
 
       - name: Set up JDK 17
@@ -45,4 +49,4 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNINGINMEMORYKEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNINGINMEMORYKEYID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNINGINMEMORYKEYPASSWORD }}
-        run: ./gradlew build --stacktrace
+        run: ./gradlew clean build --stacktrace
