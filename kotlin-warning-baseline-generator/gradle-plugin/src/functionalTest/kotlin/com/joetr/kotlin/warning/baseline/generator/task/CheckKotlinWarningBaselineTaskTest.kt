@@ -40,11 +40,18 @@ class CheckKotlinWarningBaselineTaskTest {
     fun `check task fails if new warning is added`() {
         val project = BasicAndroidProject.getComposeProject()
 
+
         val writeTask = ":android:releaseWriteKotlinWarningBaseline"
         val checkTask = ":android:releaseCheckKotlinWarningBaseline"
 
+        println("joerDebug - $writeTask and $checkTask")
+
+        println("joerDebug - GOING TO EXECUTE $writeTask")
         val writeResult = project.execute(writeTask)
+        println("joerDebug - WRITE RESULT DONE ${writeResult.output}")
         assertThat(writeResult).task(writeTask).succeeded()
+
+        println("joerDebug - GOING TO MODIFY SRC")
 
         // modify the source so the warning isn't in the baseline anymore
         project
@@ -68,7 +75,9 @@ class CheckKotlinWarningBaselineTaskTest {
                     .trimIndent(),
             )
 
+        println("joerDebug GOING TO EXECUTE CHECK $checkTask")
         val checkResult = project.executeAndFail(checkTask)
+        println("joerDebug CHECK TAS EXECUTED ${checkResult.output}")
         assertThat(checkResult).task(checkTask).failed()
         assertThat(checkResult.output)
             .contains(
