@@ -1,4 +1,13 @@
-# Kotlin Warning Baseline Generator
+<div align="center">
+  <img src="assets/kwbg_logo.png" width="512">
+  <h1>Kotlin Warning Baseline Generator</h1>
+</div>
+
+<p align="center">
+  <a href="https://central.sonatype.com/namespace/com.joetr.kotlin.warning.baseline.generator"><img alt="Maveb Central" src="https://img.shields.io/maven-central/v/com.joetr.kotlin.warning.baseline.generator/com.joetr.kotlin.warning.baseline.generator.gradle.plugin"/></a>
+  <a href="https://opensource.org/license/mit/"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
+  <a href="https://github.com/j-roskopf/KotlinWarningBaselineGenerator/actions/workflows/release.yml"><img alt="Release Workflow" src="https://github.com/j-roskopf/KotlinWarningBaselineGenerator/actions/workflows/release.yml/badge.svg"/></a>
+</p><br>
 
 A gradle plugin for detecting when new Kotlin warnings are added.
 
@@ -57,6 +66,8 @@ kotlinWarningBaselineGenerator {
     )
 }
 ```
+
+Note - Since this plugin requires all kotlin warnings to be output during task execution, incremental compilation + up to date checks for the kotlin compile task are modified when executing the check / generate gradle tasks.
 
 ## Multiplatform
 
