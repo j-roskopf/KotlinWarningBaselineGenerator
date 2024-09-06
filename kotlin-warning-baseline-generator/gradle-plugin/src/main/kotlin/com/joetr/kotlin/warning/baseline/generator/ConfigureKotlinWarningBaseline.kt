@@ -23,7 +23,6 @@
  */
 @file:Suppress("KotlinConstantConditions", "ObjectLiteralToLambda")
 
-
 package com.joetr.kotlin.warning.baseline.generator
 
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
