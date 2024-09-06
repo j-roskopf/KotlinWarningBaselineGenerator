@@ -52,7 +52,7 @@ plugins {
 
 ## Configuration
 
-Right now, warnings can be observed from main or test source sets and is configurable via the following DSL in your `build.gradle.kts`:
+Right now, warnings can be observed from main, unit test, or android test source sets and is configurable via the following DSL in your `build.gradle.kts`:
 
 ```
 kotlinWarningBaselineGenerator {
