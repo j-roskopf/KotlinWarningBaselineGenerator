@@ -21,7 +21,7 @@ You can also check the baseline for a specific module via `./gradlew :<MODULE>:<
 * Remove
 
 Baselines can be deleted via `./gradlew removeKotlinWarningBaseline`
-Baseliens for a specific module can be done via `./gradlew :<MODULE>:removeKotlinWarningBaseline`
+Baselines for a specific module can be done via `./gradlew :<MODULE>:removeKotlinWarningBaseline`
 
 ## Adding To Your Project
 
@@ -52,6 +52,7 @@ kotlinWarningBaselineGenerator {
         listOf(
             KotlinCompileTask.MAIN,
             KotlinCompileTask.UNIT_TEST,
+            KotlinCompileTask.ANDROID_TEST,
         )
     )
 }
@@ -73,8 +74,8 @@ In a Multiplatform project, Kotlin Warning Baseline Generator adds the same 2 `C
 
 ### Web
 
-`/gradlew :webApp:jsWriteKotlinWarningBaseline`
-`/gradlew :webApp:jsCheckKotlinWarningBaseline`
+`./gradlew :webApp:jsWriteKotlinWarningBaseline`
+`./gradlew :webApp:jsCheckKotlinWarningBaseline`
 
 ### iOS
 
