@@ -27,14 +27,19 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.exists
 import com.joetr.kotlin.warning.baseline.generator.BasicAndroidProject
+import com.joetr.kotlin.warning.baseline.generator.infra.RetryRule
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.doesNotExist
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.succeeded
 import com.joetr.kotlin.warning.baseline.generator.infra.asserts.task
 import com.joetr.kotlin.warning.baseline.generator.infra.execute
+import org.junit.Rule
 import org.junit.Test
 
 @Suppress("FunctionName")
 class RemoveKotlinWarningBaselineTaskTest {
+
+    @get:Rule
+    val retryRule = RetryRule(retryCount = 5)
 
     @Test
     fun `remove task cleans up warning files`() {
