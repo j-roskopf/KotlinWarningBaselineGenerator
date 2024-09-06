@@ -46,7 +46,7 @@ tasks.getByName<Test>("test") {
 }
 
 mavenPublishing {
-    coordinates(GROUP, "gradle-plugin", VERSION_NAME)
+    coordinates(GROUP, "kotlin.warning.baseline.generator", VERSION_NAME)
 
     pom {
         name.set(DISPLAY_NAME)
