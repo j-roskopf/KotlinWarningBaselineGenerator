@@ -79,7 +79,9 @@ internal fun Project.configureKotlinWarningBaselineForAndroid(eventListenerRegis
 
     val extension = KotlinWarningBaselineExtension.get(this)
 
-    val warningFileCollector = WarningFileCollector().apply {
+    val warningFileCollector = WarningFileCollector(
+        project.layout.projectDirectory.asFile,
+    ).apply {
         projectName = project.name
     }
 
@@ -137,7 +139,9 @@ internal fun Project.configureKotlinWarningBaselineForMultiplatform(eventListene
         },
     )
 
-    val warningFileCollector = WarningFileCollector().apply {
+    val warningFileCollector = WarningFileCollector(
+        project.layout.projectDirectory.asFile,
+    ).apply {
         projectName = project.name
     }
 
