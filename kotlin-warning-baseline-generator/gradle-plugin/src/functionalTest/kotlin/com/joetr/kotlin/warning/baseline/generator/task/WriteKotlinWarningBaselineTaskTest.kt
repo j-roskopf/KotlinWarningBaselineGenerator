@@ -25,6 +25,7 @@ package com.joetr.kotlin.warning.baseline.generator.task
 
 import assertk.assertThat
 import assertk.assertions.contains
+import assertk.assertions.doesNotContain
 import assertk.assertions.exists
 import com.joetr.kotlin.warning.baseline.generator.BasicAndroidProject
 import com.joetr.kotlin.warning.baseline.generator.infra.RetryRule
@@ -55,6 +56,9 @@ class WriteKotlinWarningBaselineTaskTest {
         assertThat(baselineFile.toFile()).exists()
         assertThat(baselineFile.readText())
             .contains("TestComposable.kt:6:20 Condition 'test != null' is always 'true")
+
+        // only relative paths
+        assertThat(baselineFile.readText()).doesNotContain("w: file:///")
     }
 
     @Test

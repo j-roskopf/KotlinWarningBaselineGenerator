@@ -34,12 +34,16 @@ import org.gradle.internal.operations.logging.LogEventBuildOperationProgressDeta
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
-internal class WarningFileCollector {
+internal class WarningFileCollector(
+    projectPath: File,
+) {
     internal val kotlinWarningsMap = ConcurrentHashMap<String, Set<String>>()
 
     lateinit var projectName: String
 
     var fileToWriteTo: File? = null
+
+    private val prefixToFilter = "w: file://${projectPath}${File.separatorChar}"
 
     internal val buildOperationListener =
         object : BuildOperationListener {
@@ -56,10 +60,10 @@ internal class WarningFileCollector {
                 val log = progressEvent.details
                 if (log is LogEventBuildOperationProgressDetails) {
                     if (log.level.name == LogLevel.WARN.name) {
-                        if (log.message.contains("w:") && log.message.contains(".kt")) {
+                        if (log.message.startsWith(prefixToFilter) && log.message.contains(".kt")) {
                             if (log.message.contains("/$projectName/")) {
                                 kotlinWarningsMap[projectName] =
-                                    kotlinWarningsMap.getOrDefault(projectName, emptySet()) + setOf(log.message)
+                                    kotlinWarningsMap.getOrDefault(projectName, emptySet()) + setOf("...${File.separatorChar}".plus(log.message.removePrefix(prefixToFilter)))
                             }
                         }
                     }
