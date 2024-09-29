@@ -62,6 +62,43 @@ class WriteKotlinWarningBaselineTaskTest {
     }
 
     @Test
+    fun `if all files are cleaned up in baseline, baseline is deleted`() {
+        val project = BasicAndroidProject.getComposeProject()
+
+        val generateTask = ":android:releaseWriteKotlinWarningBaseline"
+        val generateResult = project.execute(generateTask)
+
+        assertThat(generateResult).task(generateTask).succeeded()
+        val baselineFile = project.projectDir(":android").resolve("warning-baseline-release-android.txt")
+        assertThat(baselineFile.toFile()).exists()
+        assertThat(baselineFile.readText())
+            .contains("TestComposable.kt:6:20 Condition 'test != null' is always 'true")
+
+        project
+            .projectDir("android")
+            .resolve("src/main/kotlin/com/example/myapplication/TestComposable.kt")
+            .toFile()
+            .writeText(
+                """
+                package com.example.myapplication
+                    
+                class AndroidApp {
+                        init {
+                            val test = "hello"
+                            println(test)
+                        }
+                      }
+                """
+                    .trimIndent(),
+            )
+
+        val newGenerateResult = project.execute(generateTask)
+
+        assertThat(newGenerateResult).task(generateTask).succeeded()
+        assertThat(baselineFile).doesNotExist()
+    }
+
+    @Test
     fun `write generates no baseline if no warnings exist`() {
         val project = BasicAndroidProject.getComposeProject(
             androidProjectSource = """
