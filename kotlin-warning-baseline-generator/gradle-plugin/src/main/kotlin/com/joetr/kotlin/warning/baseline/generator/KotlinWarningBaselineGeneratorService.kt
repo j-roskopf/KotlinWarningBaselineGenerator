@@ -74,21 +74,29 @@ public abstract class KotlinWarningBaselineGeneratorService :
                                 projectName,
                             ) ?: emptySet()
 
-                        if (content.isNotEmpty()) {
-                            val warningFileCollector = warningFileCollectors[projectName]
-                            val filePathToWriteTo = if (isWriteTask) {
-                                baselineFilePaths[projectName]
-                            } else if (isCheckTask) {
-                                warningFilePaths[projectName]
+                        val warningFileCollector = warningFileCollectors[projectName]
+                        val filePathToWriteTo = if (isWriteTask) {
+                            baselineFilePaths[projectName]
+                        } else if (isCheckTask) {
+                            warningFilePaths[projectName]
+                        } else {
+                            null
+                        }
+                        if (filePathToWriteTo != null) {
+                            val baselineFile = File(filePathToWriteTo)
+                            if (content.isNotEmpty()) {
+                                if (warningFileCollector != null) {
+                                    println("joerDebug - writing warnings to file, $filePathToWriteTo")
+                                    warningFileCollector.writeWarningsToFile(
+                                        content,
+                                        baselineFile,
+                                    )
+                                }
                             } else {
-                                null
-                            }
-
-                            if (warningFileCollector != null && filePathToWriteTo != null) {
-                                warningFileCollector.writeWarningsToFile(
-                                    content,
-                                    File(filePathToWriteTo),
-                                )
+                                if (baselineFile.exists()) {
+                                    // had a baseline file previously, but no warnings, delete the file
+                                    baselineFile.delete()
+                                }
                             }
                         }
 
