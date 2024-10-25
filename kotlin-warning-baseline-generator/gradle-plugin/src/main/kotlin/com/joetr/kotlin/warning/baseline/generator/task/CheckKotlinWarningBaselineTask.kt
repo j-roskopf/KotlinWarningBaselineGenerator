@@ -88,9 +88,6 @@ internal abstract class CheckKotlinWarningBaselineTask : DefaultTask() {
                     As a last resort, you can regenerate the baseline
                     `./gradlew :<PROJECT_NAME>:<variant>WriteKotlinWarningBaseline`
 
-                    More info: https://dev.azure.com/WBA/Digital/_git/wag-mobileapp-gradle-plugin?anchor=warnings-as-errors
-
-
                 """
                         .trimIndent(),
                     separator = "\n",

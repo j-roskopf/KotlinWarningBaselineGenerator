@@ -85,13 +85,10 @@ public abstract class KotlinWarningBaselineGeneratorService :
                         if (filePathToWriteTo != null) {
                             val baselineFile = File(filePathToWriteTo)
                             if (content.isNotEmpty()) {
-                                if (warningFileCollector != null) {
-                                    println("joerDebug - writing warnings to file, $filePathToWriteTo")
-                                    warningFileCollector.writeWarningsToFile(
-                                        content,
-                                        baselineFile,
-                                    )
-                                }
+                                warningFileCollector?.writeWarningsToFile(
+                                    content,
+                                    baselineFile,
+                                )
                             } else {
                                 if (baselineFile.exists()) {
                                     // had a baseline file previously, but no warnings, delete the file
