@@ -118,4 +118,4 @@ signing.secretKeyRingFile=/Users/YOURUSERNAME/.gnupg/kotlinwarningbaselinegenera
 
 ## Prior Art
 
-https://github.com/Doist/kotlin-warning-baseline
+https://github.com/Doist/kotlin-warning-baseline - [Relation](https://github.com/j-roskopf/KotlinWarningBaselineGenerator/issues/3)
