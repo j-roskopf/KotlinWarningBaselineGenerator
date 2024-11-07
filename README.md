@@ -8,6 +8,7 @@
   <a href="https://opensource.org/license/mit/"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
   <a href="https://github.com/j-roskopf/KotlinWarningBaselineGenerator/actions/workflows/release.yml"><img alt="Release Workflow" src="https://github.com/j-roskopf/KotlinWarningBaselineGenerator/actions/workflows/release.yml/badge.svg"/></a>
   <a href="https://mailchi.mp/kotlinweekly/kotlin-weekly-423"><img alt="Kotlin Weekly" src="https://img.shields.io/badge/News-Kotlin_Weekly_%23423-palevioletred?logo=kotlin"/></a>
+  <a href="https://hitsofcode.com/github/j-roskopf/KotlinWarningBaselineGenerator/view?branch=main"><img src="https://hitsofcode.com/github/j-roskopf/KotlinWarningBaselineGenerator?branch=main"/></a>
 </p><br>
 
 A gradle plugin for detecting when new Kotlin warnings are added.
