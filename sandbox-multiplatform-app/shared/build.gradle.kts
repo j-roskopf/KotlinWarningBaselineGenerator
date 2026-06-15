@@ -5,6 +5,7 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.compose")
+    kotlin("plugin.compose")
     id("com.joetr.kotlin.warning.baseline.generator")
 }
 
@@ -12,9 +13,11 @@ version = "1.0-SNAPSHOT"
 val ktorVersion = extra["ktor.version"]
 
 kotlin {
+    applyDefaultHierarchyTemplate()
     androidTarget()
     jvm("desktop")
-    ios()
+    iosX64()
+    iosArm64()
     iosSimulatorArm64()
 
     js(IR) {
@@ -41,6 +44,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
+                implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -94,7 +98,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 35
     namespace = "example.imageviewer.shared"
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")

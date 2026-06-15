@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.joetr.kotlin.warning.baseline.generator")
-    id("org.jetbrains.kotlin.plugin.compose").version("2.0.0")
+    id("org.jetbrains.kotlin.plugin.compose").version("2.4.0")
 }
 
 android {
@@ -24,8 +24,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.5"
     }
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 }
 

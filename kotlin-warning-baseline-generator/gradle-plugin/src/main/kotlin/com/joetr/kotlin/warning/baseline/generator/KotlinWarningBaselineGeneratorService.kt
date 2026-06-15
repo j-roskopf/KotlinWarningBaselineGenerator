@@ -41,6 +41,7 @@ public abstract class KotlinWarningBaselineGeneratorService :
 
     internal val baselineFilePaths: MutableMap<String, String> = ConcurrentHashMap()
     internal val warningFilePaths: MutableMap<String, String> = ConcurrentHashMap()
+    internal val compileTaskToKeyMap: MutableMap<String, String> = ConcurrentHashMap()
     internal val warningFileCollectors: MutableMap<String, WarningFileCollector> = ConcurrentHashMap()
     internal val listeners: MutableMap<String, BuildOperationListener> = ConcurrentHashMap()
     internal val managers: MutableMap<String, BuildOperationListenerManager> = ConcurrentHashMap()
@@ -60,13 +61,11 @@ public abstract class KotlinWarningBaselineGeneratorService :
                 val taskStatusSplit = eventSplit[2].split(" ")
                 val task = taskStatusSplit[0]
                 val status = taskStatusSplit[1]
+
                 if (isStatusComplete(status) && tasksToComplete[projectName]?.contains(task) == true) {
                     val current = tasksCompleted[projectName]
-                    if (current == null) {
-                        tasksCompleted[projectName] = 1
-                    } else {
-                        tasksCompleted[projectName] = current + 1
-                    }
+                    val newCount = (current ?: 0) + 1
+                    tasksCompleted[projectName] = newCount
 
                     if (tasksToComplete[projectName]?.size == tasksCompleted[projectName]) {
                         val content =
@@ -75,10 +74,12 @@ public abstract class KotlinWarningBaselineGeneratorService :
                             ) ?: emptySet()
 
                         val warningFileCollector = warningFileCollectors[projectName]
+                        val mapKey = "${projectName}_$task"
+                        val key = compileTaskToKeyMap[mapKey] ?: projectName
                         val filePathToWriteTo = if (isWriteTask) {
-                            baselineFilePaths[projectName]
+                            baselineFilePaths[key]
                         } else if (isCheckTask) {
-                            warningFilePaths[projectName]
+                            warningFilePaths[key]
                         } else {
                             null
                         }

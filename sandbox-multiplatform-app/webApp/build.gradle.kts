@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    kotlin("plugin.compose")
     id("com.joetr.kotlin.warning.baseline.generator")
 }
 
@@ -25,7 +26,6 @@ afterEvaluate {
 
 kotlin {
     js(IR) {
-        moduleName = "imageviewer"
         browser {
             commonWebpackConfig {
                 outputFileName = "imageviewer.js"
@@ -35,7 +35,6 @@ kotlin {
     }
 
     wasmJs {
-        moduleName = "imageviewer"
         browser {
             commonWebpackConfig {
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
@@ -82,8 +81,4 @@ kotlin {
             dependsOn(jsWasmMain)
         }
     }
-}
-
-compose.experimental {
-    web.application {}
 }

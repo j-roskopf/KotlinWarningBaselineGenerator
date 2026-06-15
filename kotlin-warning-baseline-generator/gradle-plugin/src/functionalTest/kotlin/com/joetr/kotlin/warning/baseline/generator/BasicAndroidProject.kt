@@ -50,6 +50,9 @@ object BasicAndroidProject {
         val script =
             """
             android.buildFeatures.compose = true
+            tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+                kotlinOptions.jvmTarget = "17"
+            }
             
             $additionalBuildScriptForAndroidSubProject
 
