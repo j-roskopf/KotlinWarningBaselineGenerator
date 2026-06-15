@@ -63,11 +63,9 @@ public abstract class KotlinWarningBaselineGeneratorService :
                 val status = taskStatusSplit[1]
 
                 if (isStatusComplete(status) && tasksToComplete[projectName]?.contains(task) == true) {
-                    val current = tasksCompleted[projectName]
-                    val newCount = (current ?: 0) + 1
-                    tasksCompleted[projectName] = newCount
+                    val newCount = tasksCompleted.compute(projectName) { _, current -> (current ?: 0) + 1 } ?: 1
 
-                    if (tasksToComplete[projectName]?.size == tasksCompleted[projectName]) {
+                    if (tasksToComplete[projectName]?.size == newCount) {
                         val content =
                             warningFileCollectors[projectName]?.kotlinWarningsMap?.get(
                                 projectName,

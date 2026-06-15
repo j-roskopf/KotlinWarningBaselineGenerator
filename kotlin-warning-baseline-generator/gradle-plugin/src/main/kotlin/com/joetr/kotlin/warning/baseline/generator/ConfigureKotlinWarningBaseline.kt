@@ -552,12 +552,14 @@ private fun Project.hasNonEmptyKotlinSourceSets(): Boolean {
     }
 }
 
-private fun Project.getKotlinSources(): List<File> {
-    val buildDirPath = project.layout.buildDirectory.asFile.get().absolutePath
-    val kotlinSourceSet = extensions.getByType(KotlinProjectExtension::class.java).sourceSets
-    return kotlinSourceSet.flatMap { sourceSet ->
-        sourceSet.kotlin.filter { file ->
-            !file.absolutePath.startsWith(buildDirPath)
+private fun Project.getKotlinSources(): Provider<List<File>> {
+    return project.layout.buildDirectory.map { buildDir ->
+        val buildDirPath = buildDir.asFile.absolutePath
+        val kotlinSourceSet = extensions.getByType(KotlinProjectExtension::class.java).sourceSets
+        kotlinSourceSet.flatMap { sourceSet ->
+            sourceSet.kotlin.filter { file ->
+                !file.absolutePath.startsWith(buildDirPath)
+            }
         }
     }
 }
