@@ -7,6 +7,7 @@ public final class com/joetr/kotlin/warning/baseline/generator/KotlinCompileTask
 	public static final field ANDROID_TEST Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
 	public static final field MAIN Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
 	public static final field UNIT_TEST Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
 	public static fun values ()[Lcom/joetr/kotlin/warning/baseline/generator/KotlinCompileTask;
 }

@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.application")
     id("org.jetbrains.compose")
+    kotlin("plugin.compose")
     id("com.joetr.kotlin.warning.baseline.generator")
 }
 
@@ -30,7 +31,7 @@ kotlin {
 
 android {
     namespace = "example.imageviewer"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "org.jetbrains.Imageviewer"
         minSdk = 26

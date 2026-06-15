@@ -59,7 +59,7 @@ class ConfigurationKotlinWarningBaselineTaskTest {
                     }
                 """.trimIndent(),
             )
-        val generateTask = ":android:releaseWriteKotlinWarningBaseline"
+        val generateTask = ":android:debugWriteKotlinWarningBaseline"
 
         val unitTestDirectory =
             project.projectDir("android").resolve("src/test/kotlin/com/example/myapplication").toFile()
@@ -116,7 +116,7 @@ class ConfigurationKotlinWarningBaselineTaskTest {
         val generateResult = project.execute(generateTask)
         assertThat(generateResult).task(generateTask).succeeded()
 
-        val baselineFile = project.projectDir(":android").resolve("warning-baseline-release-android.txt")
+        val baselineFile = project.projectDir(":android").resolve("warning-baseline-debug-android.txt")
         assertThat(baselineFile.toFile()).exists()
 
         val baselineText = baselineFile.readText()
@@ -150,7 +150,7 @@ class ConfigurationKotlinWarningBaselineTaskTest {
         )
 
         // assert check fails
-        val checkTask = ":android:releaseCheckKotlinWarningBaseline"
+        val checkTask = ":android:debugCheckKotlinWarningBaseline"
         val checkResult = project.executeAndFail(checkTask)
         assertThat(checkResult).task(checkTask).failed()
         assertThat(checkResult.output)

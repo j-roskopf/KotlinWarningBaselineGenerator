@@ -69,6 +69,9 @@ kotlinWarningBaselineGenerator {
 }
 ```
 
+> [!NOTE]
+> `KotlinCompileTask.ANDROID_TEST` compilation tasks are only available on the `debug` build variant (e.g. `compileDebugAndroidTestKotlin`). As a result, Android Test warnings are only collected and verified when running debug-specific tasks (e.g., `debugWriteKotlinWarningBaseline` or `debugCheckKotlinWarningBaseline`). Running release-specific tasks will bypass checking Android Test warnings.
+
 Note - Since this plugin requires all kotlin warnings to be output during task execution, incremental compilation + up to date checks for the kotlin compile task are modified when executing the check / generate gradle tasks.
 
 ## Multiplatform

@@ -42,15 +42,14 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.support.serviceOf
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJvmAndroidCompilation
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.targets.js.KotlinJsTarget
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
@@ -160,16 +159,17 @@ internal fun Project.configureKotlinWarningBaselineForMultiplatform(eventListene
                 kotlinAndroidTarget.compilations.all(
                     object : Action<KotlinJvmAndroidCompilation> {
                         override fun execute(kotlinJvmAndroidCompilation: KotlinJvmAndroidCompilation) {
+                            val androidVariantName = kotlinJvmAndroidCompilation.androidVariant?.name
                             val mappedAndroidVariant = when {
-                                kotlinJvmAndroidCompilation.androidVariant.name.contains("UnitTest") -> KotlinCompileTask.UNIT_TEST
-                                kotlinJvmAndroidCompilation.androidVariant.name.contains("AndroidTest") -> KotlinCompileTask.ANDROID_TEST
-                                kotlinJvmAndroidCompilation.androidVariant.name in supportedVariantsAndroidTarget -> KotlinCompileTask.MAIN
+                                androidVariantName?.contains("UnitTest") == true -> KotlinCompileTask.UNIT_TEST
+                                androidVariantName?.contains("AndroidTest") == true -> KotlinCompileTask.ANDROID_TEST
+                                androidVariantName in supportedVariantsAndroidTarget -> KotlinCompileTask.MAIN
                                 else -> null
                             }
 
-                            if (mappedAndroidVariant in extension.kotlinCompileTasksToConfigure.get()) {
+                            if (mappedAndroidVariant != null && mappedAndroidVariant in extension.kotlinCompileTasksToConfigure.get()) {
                                 setupDataForMultiplatformTarget(
-                                    variant = kotlinJvmAndroidCompilation.androidVariant.name,
+                                    variant = androidVariantName.orEmpty(),
                                     target = kotlinAndroidTarget.name,
                                     kotlinWarningBaselineGeneratorService = kotlinWarningBaselineGeneratorService,
                                     warningFileCollector = warningFileCollector,
@@ -212,21 +212,6 @@ internal fun Project.configureKotlinWarningBaselineForMultiplatform(eventListene
         },
     )
 
-    val jsTargets =
-        multiplatformExtension?.targets?.withType(KotlinJsTarget::class.java)
-    jsTargets?.all(
-        object : Action<KotlinJsTarget> {
-            override fun execute(kotlinJsTarget: KotlinJsTarget) {
-                setupDataForMultiplatformTarget(
-                    variant = "",
-                    target = kotlinJsTarget.name,
-                    kotlinWarningBaselineGeneratorService = kotlinWarningBaselineGeneratorService,
-                    warningFileCollector = warningFileCollector,
-                )
-            }
-        },
-    )
-
     val irTargets =
         multiplatformExtension?.targets?.withType(KotlinJsIrTarget::class.java)
     irTargets?.all(
@@ -261,16 +246,21 @@ private fun Project.setupDataForAndroidTarget(
             kotlinCompileTask = it,
             variant = variant,
         )
-    }.toSet()
+    }.filter { it.isNotEmpty() }.toSet()
 
     val variantToDependOn = getVariantFromStartTask(
         taskNames = gradle.startParameter.taskNames,
     )
 
-    kotlinWarningBaselineGeneratorService.get().warningFilePaths[project.name] =
+    val key = "${project.name}_${variant}_$target"
+    kotlinWarningBaselineGeneratorService.get().warningFilePaths[key] =
         warningFile.absolutePath
-    kotlinWarningBaselineGeneratorService.get().baselineFilePaths[project.name] =
+    kotlinWarningBaselineGeneratorService.get().baselineFilePaths[key] =
         baselineFile.absolutePath
+    compileTaskDependsOn.forEach { taskName ->
+        val mapKey = "${project.name}_$taskName"
+        kotlinWarningBaselineGeneratorService.get().compileTaskToKeyMap[mapKey] = key
+    }
 
     kotlinWarningBaselineGeneratorService.get().isWriteTask =
         gradle.startParameter.taskNames.any { it.contains(WRITE_TASK_NAME) }
@@ -327,10 +317,15 @@ private fun Project.setupDataForMultiplatformTarget(
             addTaskToService(compileTaskDependsOn, kotlinWarningBaselineGeneratorService.get())
         }
 
-        kotlinWarningBaselineGeneratorService.get().warningFilePaths[project.name] =
+        val key = "${project.name}_${variant}_$target"
+        kotlinWarningBaselineGeneratorService.get().warningFilePaths[key] =
             warningFile.absolutePath
-        kotlinWarningBaselineGeneratorService.get().baselineFilePaths[project.name] =
+        kotlinWarningBaselineGeneratorService.get().baselineFilePaths[key] =
             baselineFile.absolutePath
+        compileTaskDependsOn.forEach { taskName ->
+            val mapKey = "${project.name}_$taskName"
+            kotlinWarningBaselineGeneratorService.get().compileTaskToKeyMap[mapKey] = key
+        }
     }
 
     kotlinWarningBaselineGeneratorService.get().isWriteTask =
@@ -350,8 +345,8 @@ private fun Project.setupDataForMultiplatformTarget(
 }
 
 private fun getVariantFromStartTask(taskNames: List<String>): String {
-    return supportedVariantsAndroidTarget.firstOrNull {
-        taskNames.contains(it)
+    return supportedVariantsAndroidTarget.firstOrNull { variant ->
+        taskNames.any { it.contains(variant, ignoreCase = true) }
     } ?: DEFAULT_VARIANT_ANDROID_TARGET
 }
 
@@ -388,7 +383,13 @@ private fun taskNameFromCompileTaskSource(
         KotlinCompileTask.UNIT_TEST -> "compile${variant.capitalizeCompat()}UnitTestKotlin"
         KotlinCompileTask.MAIN -> "compile${variant.capitalizeCompat()}Kotlin"
         // there is no release for AndroidTest, so hard code to debug
-        KotlinCompileTask.ANDROID_TEST -> "compileDebugAndroidTestKotlin"
+        KotlinCompileTask.ANDROID_TEST -> {
+            if (variant.equals("debug", ignoreCase = true)) {
+                "compileDebugAndroidTestKotlin"
+            } else {
+                ""
+            }
+        }
         null -> throw IllegalArgumentException("Null Kotlin Compile Task Configuration")
     }
 }
@@ -509,10 +510,10 @@ private fun Project.configureTasks(
  */
 private fun Project.configureKotlinCompile(compileTaskDependsOn: Set<String>) {
     project.tasks
-        .withType(KotlinCompile::class.java)
+        .withType(KotlinCompilationTask::class.java)
         .configureEach(
-            object : Action<KotlinCompile<*>> {
-                override fun execute(t: KotlinCompile<*>) {
+            object : Action<KotlinCompilationTask<*>> {
+                override fun execute(t: KotlinCompilationTask<*>) {
                     val isWriteTask =
                         gradle.startParameter.taskNames.any { it.contains(WRITE_TASK_NAME) }
                     val isCheckTask =
@@ -551,10 +552,15 @@ private fun Project.hasNonEmptyKotlinSourceSets(): Boolean {
     }
 }
 
-private fun Project.getKotlinSources(): List<File> {
-    val kotlinSourceSet = extensions.getByType(KotlinProjectExtension::class.java).sourceSets
-    return kotlinSourceSet.flatMap {
-        it.kotlin
+private fun Project.getKotlinSources(): Provider<List<File>> {
+    return project.layout.buildDirectory.map { buildDir ->
+        val buildDirPath = buildDir.asFile.absolutePath
+        val kotlinSourceSet = extensions.getByType(KotlinProjectExtension::class.java).sourceSets
+        kotlinSourceSet.flatMap { sourceSet ->
+            sourceSet.kotlin.filter { file ->
+                !file.absolutePath.startsWith(buildDirPath)
+            }
+        }
     }
 }
 
