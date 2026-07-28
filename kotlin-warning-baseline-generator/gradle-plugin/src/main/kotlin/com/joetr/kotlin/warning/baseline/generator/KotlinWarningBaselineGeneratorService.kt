@@ -37,7 +37,9 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 public abstract class KotlinWarningBaselineGeneratorService :
-    BuildService<BuildServiceParameters.None>, OperationCompletionListener, AutoCloseable {
+    BuildService<BuildServiceParameters.None>,
+    OperationCompletionListener,
+    AutoCloseable {
 
     internal val baselineFilePaths: MutableMap<String, String> = ConcurrentHashMap()
     internal val warningFilePaths: MutableMap<String, String> = ConcurrentHashMap()

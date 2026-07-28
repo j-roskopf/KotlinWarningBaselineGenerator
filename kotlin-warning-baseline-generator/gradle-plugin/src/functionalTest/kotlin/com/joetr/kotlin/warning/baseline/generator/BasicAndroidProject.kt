@@ -188,8 +188,7 @@ object BasicAndroidProject {
         return project
     }
 
-    private fun defaultAndroidAppSource(): String {
-        return """
+    private fun defaultAndroidAppSource(): String = """
             package com.example.myapplication
             
             class AndroidApp {
@@ -200,6 +199,5 @@ object BasicAndroidProject {
                             }
                         }
                       }
-        """.trimIndent()
-    }
+    """.trimIndent()
 }

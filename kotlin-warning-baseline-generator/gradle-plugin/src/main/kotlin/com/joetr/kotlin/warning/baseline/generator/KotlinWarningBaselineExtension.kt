@@ -34,12 +34,11 @@ public interface KotlinWarningBaselineExtension {
     public companion object {
         private const val NAME = "kotlinWarningBaselineGenerator"
 
-        public fun create(target: Project): KotlinWarningBaselineExtension =
-            target.extensions.create<KotlinWarningBaselineExtension>(NAME).apply {
-                kotlinCompileTasksToConfigure.convention(
-                    listOf(KotlinCompileTask.MAIN),
-                )
-            }
+        public fun create(target: Project): KotlinWarningBaselineExtension = target.extensions.create<KotlinWarningBaselineExtension>(NAME).apply {
+            kotlinCompileTasksToConfigure.convention(
+                listOf(KotlinCompileTask.MAIN),
+            )
+        }
 
         /**
          * Get extensions applied to the [target] project.

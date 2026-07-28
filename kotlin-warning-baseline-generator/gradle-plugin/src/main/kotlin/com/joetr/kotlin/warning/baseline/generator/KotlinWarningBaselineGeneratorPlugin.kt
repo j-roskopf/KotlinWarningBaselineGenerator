@@ -43,6 +43,4 @@ public class KotlinWarningBaselineGeneratorPlugin @Inject constructor(
     }
 }
 
-internal fun Project.isMultiplatformProject(): Boolean {
-    return pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")
-}
+internal fun Project.isMultiplatformProject(): Boolean = pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")
