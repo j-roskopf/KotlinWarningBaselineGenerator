@@ -356,11 +356,13 @@ private fun Project.addCompileTaskToService(
 ) {
     if (compileTaskDependsOn.all {
             // android test hard coded to debug, so it'll never match variant
-            it.contains(variantToDependOn, ignoreCase = true) || it.contains(
-                "AndroidTest",
-                ignoreCase = true,
-            )
-        }.not() && skipValidation.not()
+            it.contains(variantToDependOn, ignoreCase = true) ||
+                it.contains(
+                    "AndroidTest",
+                    ignoreCase = true,
+                )
+        }.not() &&
+        skipValidation.not()
     ) {
         // if we are running releaseWrite, we don't care about any tasks that are other variants
         return
