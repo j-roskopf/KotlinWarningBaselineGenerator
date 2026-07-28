@@ -20,10 +20,11 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    js(IR) {
+    js {
         browser()
     }
 
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
         browser()
     }
@@ -71,9 +72,9 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.6.1")
-                api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.9.0")
+                api("androidx.activity:activity-compose:1.10.0")
+                api("androidx.appcompat:appcompat:1.7.0")
+                api("androidx.core:core-ktx:1.15.0")
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
             }
         }
@@ -82,15 +83,11 @@ kotlin {
                 implementation("io.ktor:ktor-client-darwin:$ktorVersion")
             }
         }
-        val iosSimulatorArm64Main by getting {
-            dependsOn(iosMain)
-        }
-
 
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.common)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1")
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
             }
         }
@@ -111,7 +108,6 @@ android {
 
     defaultConfig {
         minSdk = 26
-        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

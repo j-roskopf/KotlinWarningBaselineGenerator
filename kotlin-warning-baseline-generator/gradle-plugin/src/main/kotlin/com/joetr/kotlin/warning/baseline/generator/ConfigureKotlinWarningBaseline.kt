@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-@file:Suppress("KotlinConstantConditions", "ObjectLiteralToLambda")
+@file:Suppress("KotlinConstantConditions", "ObjectLiteralToLambda", "DEPRECATION")
 
 package com.joetr.kotlin.warning.baseline.generator
 

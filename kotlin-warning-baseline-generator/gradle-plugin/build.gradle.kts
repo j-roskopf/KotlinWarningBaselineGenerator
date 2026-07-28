@@ -31,8 +31,8 @@ kotlin {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions {
-        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
-        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_2)
+        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_2)
     }
 }
 
@@ -80,6 +80,10 @@ mavenPublishing {
             developerConnection.set(DEVELOPER_CONNECTION)
         }
     }
+}
+
+tasks.withType<org.gradle.plugins.signing.Sign>().configureEach {
+    isRequired = false
 }
 
 gradlePlugin {

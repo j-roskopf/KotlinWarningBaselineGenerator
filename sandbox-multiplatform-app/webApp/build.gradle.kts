@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -24,8 +26,10 @@ afterEvaluate {
     project.tasks.getByName("wasmJsDevelopmentExecutableCompileSync").dependsOn(copyWasmResources)
 }
 
+val ktorVersion = extra["ktor.version"]
+
 kotlin {
-    js(IR) {
+    js {
         browser {
             commonWebpackConfig {
                 outputFileName = "imageviewer.js"
@@ -34,6 +38,7 @@ kotlin {
         binaries.executable()
     }
 
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
         browser {
             commonWebpackConfig {
@@ -73,8 +78,8 @@ kotlin {
         val jsMain by getting {
             dependsOn(jsWasmMain)
             dependencies {
-                implementation("io.ktor:ktor-client-core:2.3.3")
-                implementation("io.ktor:ktor-client-js:2.3.3")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-js:$ktorVersion")
             }
         }
         val wasmJsMain by getting {

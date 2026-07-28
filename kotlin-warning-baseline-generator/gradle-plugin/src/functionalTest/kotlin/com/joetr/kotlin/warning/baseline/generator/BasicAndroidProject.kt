@@ -114,8 +114,8 @@ object BasicAndroidProject {
                 builder = {
                     withAndroidLibProject(
                         name = "android",
-                        packageName = "com.example.myapplication",
                     ) {
+                        withFile("src/main/AndroidManifest.xml", "<manifest package=\"com.example.myapplication\" />")
                         withBuildScript {
                             plugins(plugins)
                             android =
@@ -155,8 +155,8 @@ object BasicAndroidProject {
                     if (includeEmptyModule) {
                         withAndroidLibProject(
                             name = "android-empty",
-                            packageName = "com.example.myapplication",
                         ) {
+                            withFile("src/main/AndroidManifest.xml", "<manifest package=\"com.example.myapplication\" />")
                             withBuildScript {
                                 plugins(plugins)
                                 android =
