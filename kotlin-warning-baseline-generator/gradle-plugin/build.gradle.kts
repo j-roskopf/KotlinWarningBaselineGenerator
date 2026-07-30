@@ -18,6 +18,9 @@ plugins {
     alias(libs.plugins.testkit)
 }
 
+group = GROUP
+version = VERSION_NAME
+
 repositories {
     mavenCentral()
     google()
