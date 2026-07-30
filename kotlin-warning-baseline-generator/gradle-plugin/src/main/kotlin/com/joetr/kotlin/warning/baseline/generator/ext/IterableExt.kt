@@ -25,10 +25,8 @@ package com.joetr.kotlin.warning.baseline.generator.ext
 
 import java.io.File
 
-internal fun File.readSetOfLines(): Set<String> {
-    return if (this.exists()) {
-        this.readWarningLines().toSet()
-    } else {
-        emptySet()
-    }
+internal fun File.readSetOfLines(): Set<String> = if (this.exists()) {
+    this.readWarningLines().toSet()
+} else {
+    emptySet()
 }

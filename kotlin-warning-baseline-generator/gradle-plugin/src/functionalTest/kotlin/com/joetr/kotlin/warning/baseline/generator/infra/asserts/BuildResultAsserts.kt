@@ -32,16 +32,10 @@ import assertk.assertions.prop
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.BuildTask
 
-inline fun Assert<BuildResult>.task(path: String): Assert<BuildTask> {
-    return prop(name = "task($path)") {
-        it.task(path)
-    }.isNotNull()
-}
+inline fun Assert<BuildResult>.task(path: String): Assert<BuildTask> = prop(name = "task($path)") {
+    it.task(path)
+}.isNotNull()
 
-inline fun Assert<BuildResult>.doesNotHaveTask(path: String) {
-    return prop(BuildResult::getTasks).doesNotContain(path)
-}
+inline fun Assert<BuildResult>.doesNotHaveTask(path: String) = prop(BuildResult::getTasks).doesNotContain(path)
 
-inline fun Assert<BuildResult>.tasks(): Assert<List<BuildTask>> {
-    return prop(BuildResult::getTasks)
-}
+inline fun Assert<BuildResult>.tasks(): Assert<List<BuildTask>> = prop(BuildResult::getTasks)

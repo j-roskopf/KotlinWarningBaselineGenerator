@@ -25,5 +25,4 @@ package com.joetr.kotlin.warning.baseline.generator.ext
 
 import java.io.File
 
-internal fun File.readWarningLines() =
-    takeIf(File::exists)?.readLines()?.filterNot { it.isEmpty() || it.startsWith("#") } ?: emptyList()
+internal fun File.readWarningLines() = takeIf(File::exists)?.readLines()?.filterNot { it.isEmpty() || it.startsWith("#") } ?: emptyList()

@@ -7,7 +7,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -48,11 +48,11 @@ fun ImageViewerCommon(
             val currentIdx = targetState.index
             val multiplier = if (previousIdx < currentIdx) 1 else -1
             if (initialState.value is GalleryPage && targetState.value is MemoryPage) {
-                fadeIn() with fadeOut(tween(durationMillis = 500, 500))
+                fadeIn() togetherWith fadeOut(tween(durationMillis = 500, 500))
             } else if (initialState.value is MemoryPage && targetState.value is GalleryPage) {
-                fadeIn() with fadeOut(tween(delayMillis = 150))
+                fadeIn() togetherWith fadeOut(tween(delayMillis = 150))
             } else {
-                slideInHorizontally { w -> multiplier * w } with
+                slideInHorizontally { w -> multiplier * w } togetherWith
                         slideOutHorizontally { w -> multiplier * -1 * w }
             }
         }) { (index, page) ->

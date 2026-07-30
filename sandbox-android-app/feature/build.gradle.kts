@@ -4,7 +4,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.joetr.kotlin.warning.baseline.generator")
-    id("org.jetbrains.kotlin.plugin.compose").version("2.4.0")
+    id("org.jetbrains.kotlin.plugin.compose").version("2.4.10")
     id("com.google.devtools.ksp")
 }
 
@@ -19,7 +19,7 @@ kotlinWarningBaselineGenerator {
 
 android {
     namespace = "com.example.myapplication.feature"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -44,10 +44,10 @@ android {
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation(platform("androidx.compose:compose-bom:2024.12.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.core:core-ktx:1.15.0")
     ksp("com.bennyhuo.kotlin:deepcopy-compiler-ksp:1.9.20-1.0.1")
     implementation("com.bennyhuo.kotlin:deepcopy-runtime:1.9.20-1.0.1")
     testImplementation("junit:junit:4.13.2")

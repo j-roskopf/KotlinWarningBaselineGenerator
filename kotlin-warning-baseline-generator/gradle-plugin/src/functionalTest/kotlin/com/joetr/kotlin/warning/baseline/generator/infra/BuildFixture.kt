@@ -41,10 +41,8 @@ class BuildFixture : AbstractGradleProject() {
         builder: GradleProject.Builder.() -> Unit,
         kotlinVersion: String = Plugins.KOTLIN_VERSION_1_9_22,
         applyMultiplatform: Boolean = false,
-    ): GradleProject {
-        return minimumFixture(script = script, kotlinVersion = kotlinVersion, applyMultiplatform = applyMultiplatform).apply { builder() }
-            .write()
-    }
+    ): GradleProject = minimumFixture(script = script, kotlinVersion = kotlinVersion, applyMultiplatform = applyMultiplatform).apply { builder() }
+        .write()
 
     private fun minimumFixture(
         @Language("kt") script: String = "",

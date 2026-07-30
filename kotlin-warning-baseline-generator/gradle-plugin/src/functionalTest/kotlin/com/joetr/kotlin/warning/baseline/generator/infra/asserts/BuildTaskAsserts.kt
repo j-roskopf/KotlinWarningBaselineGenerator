@@ -31,34 +31,18 @@ import assertk.assertions.prop
 import org.gradle.testkit.runner.BuildTask
 import org.gradle.testkit.runner.TaskOutcome
 
-inline fun Assert<BuildTask>.succeeded() {
-    return prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.SUCCESS)
-}
+inline fun Assert<BuildTask>.succeeded() = prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.SUCCESS)
 
-inline fun Assert<BuildTask>.failed() {
-    return prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.FAILED)
-}
+inline fun Assert<BuildTask>.failed() = prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.FAILED)
 
-inline fun Assert<BuildTask>.fromCache() {
-    return prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.FROM_CACHE)
-}
+inline fun Assert<BuildTask>.fromCache() = prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.FROM_CACHE)
 
-inline fun Assert<BuildTask>.noSource() {
-    return prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.NO_SOURCE)
-}
+inline fun Assert<BuildTask>.noSource() = prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.NO_SOURCE)
 
-inline fun Assert<BuildTask>.skipped() {
-    return prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.SKIPPED)
-}
+inline fun Assert<BuildTask>.skipped() = prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.SKIPPED)
 
-inline fun Assert<BuildTask>.upToDate() {
-    return prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.UP_TO_DATE)
-}
+inline fun Assert<BuildTask>.upToDate() = prop(BuildTask::getOutcome).isEqualTo(TaskOutcome.UP_TO_DATE)
 
-inline fun Assert<BuildTask>.hasPath(expected: String) {
-    return prop(BuildTask::getPath).isEqualTo(expected)
-}
+inline fun Assert<BuildTask>.hasPath(expected: String) = prop(BuildTask::getPath).isEqualTo(expected)
 
-inline fun Assert<BuildTask>.hasMessage(expected: String) {
-    return prop(BuildTask::getOutcome).isEqualTo(expected)
-}
+inline fun Assert<BuildTask>.hasMessage(expected: String) = prop(BuildTask::getOutcome).isEqualTo(expected)

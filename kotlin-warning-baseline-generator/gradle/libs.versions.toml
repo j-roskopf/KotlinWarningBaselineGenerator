@@ -1,12 +1,12 @@
 [versions]
-kotlin = "2.4.0"
-serialization = "1.7.1"
-coroutines = "1.8.1"
-spotless = "6.25.0"
-mavenPublish = "0.28.0"
-androidGradlePlugin = "8.10.0"
-junit = "5.11.0"
-truth = "1.4.2"
+kotlin = "2.4.10"
+serialization = "1.8.0"
+coroutines = "1.10.1"
+spotless = "7.0.2"
+mavenPublish = "0.30.0"
+androidGradlePlugin = "8.13.2"
+junit = "5.11.4"
+truth = "1.4.4"
 
 [libraries]
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
@@ -14,8 +14,8 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 junit-four =  { module = "junit:junit", version = "4.13.2" }
-assertk = { module = "com.willowtreeapps.assertk:assertk-jvm", version = "0.27.0" }
-testkit-support = { module =  "com.autonomousapps:gradle-testkit-support", version = "0.16"}
+assertk = { module = "com.willowtreeapps.assertk:assertk-jvm", version = "0.28.1" }
+testkit-support = { module =  "com.autonomousapps:gradle-testkit-support", version = "0.27"}
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
@@ -25,5 +25,5 @@ junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref 
 [plugins]
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
-testkit = { id = "com.autonomousapps.testkit", version = "0.10" }
-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.15.0-Beta.2"}
+testkit = { id = "com.autonomousapps.testkit", version = "0.19" }
+compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.17.0"}

@@ -2,12 +2,12 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.joetr.kotlin.warning.baseline.generator")
-    id("org.jetbrains.kotlin.plugin.compose").version("2.4.0")
+    id("org.jetbrains.kotlin.plugin.compose").version("2.4.10")
 }
 
 android {
     namespace = "com.example.myapplication.feature"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -32,5 +32,7 @@ android {
 }
 
 dependencies {
+    implementation(platform("androidx.compose:compose-bom:2024.12.01"))
+    implementation("androidx.compose.runtime:runtime")
     testImplementation("junit:junit:4.13.2")
 }

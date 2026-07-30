@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-@file:Suppress("KotlinConstantConditions", "ObjectLiteralToLambda")
+@file:Suppress("KotlinConstantConditions", "ObjectLiteralToLambda", "DEPRECATION")
 
 package com.joetr.kotlin.warning.baseline.generator
 
@@ -344,11 +344,9 @@ private fun Project.setupDataForMultiplatformTarget(
     )
 }
 
-private fun getVariantFromStartTask(taskNames: List<String>): String {
-    return supportedVariantsAndroidTarget.firstOrNull { variant ->
-        taskNames.any { it.contains(variant, ignoreCase = true) }
-    } ?: DEFAULT_VARIANT_ANDROID_TARGET
-}
+private fun getVariantFromStartTask(taskNames: List<String>): String = supportedVariantsAndroidTarget.firstOrNull { variant ->
+    taskNames.any { it.contains(variant, ignoreCase = true) }
+} ?: DEFAULT_VARIANT_ANDROID_TARGET
 
 private fun Project.addCompileTaskToService(
     compileTaskDependsOn: Set<String>,
@@ -358,11 +356,13 @@ private fun Project.addCompileTaskToService(
 ) {
     if (compileTaskDependsOn.all {
             // android test hard coded to debug, so it'll never match variant
-            it.contains(variantToDependOn, ignoreCase = true) || it.contains(
-                "AndroidTest",
-                ignoreCase = true,
-            )
-        }.not() && skipValidation.not()
+            it.contains(variantToDependOn, ignoreCase = true) ||
+                it.contains(
+                    "AndroidTest",
+                    ignoreCase = true,
+                )
+        }.not() &&
+        skipValidation.not()
     ) {
         // if we are running releaseWrite, we don't care about any tasks that are other variants
         return
@@ -378,20 +378,18 @@ private fun Project.addCompileTaskToService(
 private fun taskNameFromCompileTaskSource(
     kotlinCompileTask: KotlinCompileTask?,
     variant: String,
-): String {
-    return when (kotlinCompileTask) {
-        KotlinCompileTask.UNIT_TEST -> "compile${variant.capitalizeCompat()}UnitTestKotlin"
-        KotlinCompileTask.MAIN -> "compile${variant.capitalizeCompat()}Kotlin"
-        // there is no release for AndroidTest, so hard code to debug
-        KotlinCompileTask.ANDROID_TEST -> {
-            if (variant.equals("debug", ignoreCase = true)) {
-                "compileDebugAndroidTestKotlin"
-            } else {
-                ""
-            }
+): String = when (kotlinCompileTask) {
+    KotlinCompileTask.UNIT_TEST -> "compile${variant.capitalizeCompat()}UnitTestKotlin"
+    KotlinCompileTask.MAIN -> "compile${variant.capitalizeCompat()}Kotlin"
+    // there is no release for AndroidTest, so hard code to debug
+    KotlinCompileTask.ANDROID_TEST -> {
+        if (variant.equals("debug", ignoreCase = true)) {
+            "compileDebugAndroidTestKotlin"
+        } else {
+            ""
         }
-        null -> throw IllegalArgumentException("Null Kotlin Compile Task Configuration")
     }
+    null -> throw IllegalArgumentException("Null Kotlin Compile Task Configuration")
 }
 
 private fun Project.registerRemoveTask() {
@@ -552,37 +550,31 @@ private fun Project.hasNonEmptyKotlinSourceSets(): Boolean {
     }
 }
 
-private fun Project.getKotlinSources(): Provider<List<File>> {
-    return project.layout.buildDirectory.map { buildDir ->
-        val buildDirPath = buildDir.asFile.absolutePath
-        val kotlinSourceSet = extensions.getByType(KotlinProjectExtension::class.java).sourceSets
-        kotlinSourceSet.flatMap { sourceSet ->
-            sourceSet.kotlin.filter { file ->
-                !file.absolutePath.startsWith(buildDirPath)
-            }
+private fun Project.getKotlinSources(): Provider<List<File>> = project.layout.buildDirectory.map { buildDir ->
+    val buildDirPath = buildDir.asFile.absolutePath
+    val kotlinSourceSet = extensions.getByType(KotlinProjectExtension::class.java).sourceSets
+    kotlinSourceSet.flatMap { sourceSet ->
+        sourceSet.kotlin.filter { file ->
+            !file.absolutePath.startsWith(buildDirPath)
         }
     }
 }
 
-private fun warningBaselineFileName(variant: String, target: String): String {
-    return WARNING_BASELINE_FILE_PREFIX.plus(
-        if (variant.isNotEmpty()) {
-            "-$variant"
+private fun warningBaselineFileName(variant: String, target: String): String = WARNING_BASELINE_FILE_PREFIX.plus(
+    if (variant.isNotEmpty()) {
+        "-$variant"
+    } else {
+        ""
+    }.plus(
+        if (target.isNotEmpty()) {
+            "-$target"
         } else {
             ""
-        }.plus(
-            if (target.isNotEmpty()) {
-                "-$target"
-            } else {
-                ""
-            },
-        ).plus(".txt"),
-    )
-}
+        },
+    ).plus(".txt"),
+)
 
-private fun String.capitalizeCompat(): String {
-    return this.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-}
+private fun String.capitalizeCompat(): String = this.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
 private fun Project.addTaskToService(
     compileTaskDependsOn: Set<String>,

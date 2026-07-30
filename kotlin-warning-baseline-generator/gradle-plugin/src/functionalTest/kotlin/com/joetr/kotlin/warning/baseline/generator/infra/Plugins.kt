@@ -33,52 +33,42 @@ object Plugins {
 
     @JvmStatic val ANDROID_GRADLE_PLUGIN_VERSION = "7.4.0"
 
-    internal fun androidAppPlugin(apply: Boolean = true): Plugin {
-        return Plugin(
-            id = "com.android.application",
-            version = if (apply.not()) ANDROID_GRADLE_PLUGIN_VERSION else null,
-            apply = apply,
-        )
-    }
+    internal fun androidAppPlugin(apply: Boolean = true): Plugin = Plugin(
+        id = "com.android.application",
+        version = if (apply.not()) ANDROID_GRADLE_PLUGIN_VERSION else null,
+        apply = apply,
+    )
 
     internal fun kotlinAndroid(
         apply: Boolean = true,
         kotlinVersion: String,
-    ): Plugin {
-        return Plugin(
-            id = "org.jetbrains.kotlin.android",
-            version = if (apply.not()) kotlinVersion else null,
-            apply = apply,
-        )
-    }
+    ): Plugin = Plugin(
+        id = "org.jetbrains.kotlin.android",
+        version = if (apply.not()) kotlinVersion else null,
+        apply = apply,
+    )
 
-    internal fun reportGenPlugin(apply: Boolean = true): Plugin {
-        return Plugin(
-            id = "com.joetr.kotlin.warning.baseline.generator",
-            version = if (apply.not()) PLUGIN_UNDER_TEST_VERSION else null,
-            apply = apply,
-        )
-    }
+    internal fun reportGenPlugin(apply: Boolean = true): Plugin = Plugin(
+        id = "com.joetr.kotlin.warning.baseline.generator",
+        version = if (apply.not()) PLUGIN_UNDER_TEST_VERSION else null,
+        apply = apply,
+    )
 
     internal fun multiplatform(
         apply: Boolean = true,
         kotlinVersion: String,
-    ): Plugin {
-        return Plugin(
-            id = "org.jetbrains.kotlin.multiplatform",
-            version = if (apply.not()) kotlinVersion else null,
-            apply = apply,
-        )
-    }
+    ): Plugin = Plugin(
+        id = "org.jetbrains.kotlin.multiplatform",
+        version = if (apply.not()) kotlinVersion else null,
+        apply = apply,
+    )
 
     internal fun composePlugin(
         apply: Boolean = true,
         kotlinVersion: String,
-    ): Plugin {
-        return Plugin(
-            id = "org.jetbrains.kotlin.plugin.compose",
-            version = if (apply.not()) kotlinVersion else null,
-            apply = apply,
-        )
-    }
+    ): Plugin = Plugin(
+        id = "org.jetbrains.kotlin.plugin.compose",
+        version = if (apply.not()) kotlinVersion else null,
+        apply = apply,
+    )
 }

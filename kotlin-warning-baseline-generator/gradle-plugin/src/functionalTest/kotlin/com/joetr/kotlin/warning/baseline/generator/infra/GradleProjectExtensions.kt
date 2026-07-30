@@ -27,10 +27,6 @@ import com.autonomousapps.kit.GradleBuilder
 import com.autonomousapps.kit.GradleProject
 import org.gradle.testkit.runner.BuildResult
 
-fun GradleProject.execute(vararg args: String): BuildResult {
-    return GradleBuilder.build(rootDir, *args)
-}
+fun GradleProject.execute(vararg args: String): BuildResult = GradleBuilder.build(rootDir, *args)
 
-fun GradleProject.executeAndFail(vararg args: String): BuildResult {
-    return GradleBuilder.buildAndFail(rootDir, *args)
-}
+fun GradleProject.executeAndFail(vararg args: String): BuildResult = GradleBuilder.buildAndFail(rootDir, *args)

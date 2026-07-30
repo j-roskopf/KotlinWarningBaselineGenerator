@@ -33,37 +33,29 @@ import com.autonomousapps.kit.artifacts.BuildArtifact
 inline fun Assert<GradleProject>.artifactInBuild(
     projectName: String,
     relativePathExcludingBuild: String,
-): Assert<BuildArtifact> {
-    return prop(name = "singleArtifact($projectName, $relativePathExcludingBuild)") {
-        it.singleArtifact(projectName, relativePathExcludingBuild)
-    }
+): Assert<BuildArtifact> = prop(name = "singleArtifact($projectName, $relativePathExcludingBuild)") {
+    it.singleArtifact(projectName, relativePathExcludingBuild)
 }
 
 inline fun Assert<GradleProject>.findArtifactInBuild(
     projectName: String,
     relativePathExcludingBuild: String,
-): Assert<BuildArtifact?> {
-    return prop(name = "singleArtifact($projectName, $relativePathExcludingBuild)") {
-        it.findArtifact(projectName, relativePathExcludingBuild)
-    }
+): Assert<BuildArtifact?> = prop(name = "singleArtifact($projectName, $relativePathExcludingBuild)") {
+    it.findArtifact(projectName, relativePathExcludingBuild)
 }
 
 inline fun Assert<GradleProject>.artifactInSrc(
     projectName: String,
     relativePath: String,
     srcFolder: String,
-): Assert<BuildArtifact> {
-    return prop(name = "singleArtifact($projectName, $relativePath)") {
-        it.singleArtifact(projectName, relativePath, srcFolder)
-    }
+): Assert<BuildArtifact> = prop(name = "singleArtifact($projectName, $relativePath)") {
+    it.singleArtifact(projectName, relativePath, srcFolder)
 }
 
 inline fun Assert<GradleProject>.findArtifactInSrc(
     projectName: String,
     relativePath: String,
     srcFolder: String,
-): Assert<BuildArtifact?> {
-    return prop(name = "singleArtifact($projectName, $relativePath)") {
-        it.findArtifact(projectName, relativePath, srcFolder)
-    }
+): Assert<BuildArtifact?> = prop(name = "singleArtifact($projectName, $relativePath)") {
+    it.findArtifact(projectName, relativePath, srcFolder)
 }

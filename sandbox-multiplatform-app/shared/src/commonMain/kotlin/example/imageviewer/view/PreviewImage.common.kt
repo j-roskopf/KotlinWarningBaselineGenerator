@@ -53,7 +53,7 @@ internal fun PreviewImage(
                     slideIntoContainer(
                         towards = AnimatedContentTransitionScope.SlideDirection.Left,
                         animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
-                    ) with slideOutOfContainer(
+                    ) togetherWith slideOutOfContainer(
                         towards = AnimatedContentTransitionScope.SlideDirection.Left,
                         animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
                     )
